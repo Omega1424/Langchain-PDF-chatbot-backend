@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:  
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/root/langchain-chatbot
+    command: uvicorn main:app --app-dir . --host 0.0.0.0 --timeout-keep-alive 30 --reload
+
