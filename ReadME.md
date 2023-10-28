@@ -1,5 +1,5 @@
 # PDF-Chatbot Backend
-
+![Architectural Diagram](/architecture%20diagram.png)
 ## About 
 API for chatbot using Langchain and GPT3.5-turbo model that can take in multiple documents and answer relevant questions. Backend was built using FastAPI.
 ## Set up Locally
