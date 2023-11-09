@@ -77,7 +77,7 @@ chat_history = []
 def ask_chatbot(query):
     if not query:
         return "please provide a question"
-    prompt = query + "Answer the question based on only the context given. If you don't know the answer say I don't know"
+    prompt = query + "Check if the question is related to context given, and if it is, answer based on only the context given. If the question is not about context given, just say 'Please ensure your question is about your uploaded document'. If you don't know the answer say I don't know. Keep the response to 100 words unless this is not possible and split it into bullet points if possible(and if applicable, so not if its question about his morals but yes if a question about his credentials) to make it readable"
     
     if tools.qa_chain is None:
         tools.create_qa_chain()
