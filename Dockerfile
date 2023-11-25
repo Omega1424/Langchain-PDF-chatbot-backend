@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 ENV PROJ_NAME langchain-chatbot
 ENV PROJ_HOME /root/$PROJ_NAME

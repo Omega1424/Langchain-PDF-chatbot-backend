@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from multi_doc_chatbot import ask_chatbot, document_loader, tools
 from pydantic import BaseModel
-
+import os
 
 
 logging.basicConfig(
@@ -25,5 +25,6 @@ def ask_endpoint(item: Item):
 @app.get('/embed')
 def get_context():
     docs = document_loader()
-    tools.create_embeddings(docs, persist_directory='/root/langchain-chatbot/data')
+    persist_directory=os.path.expanduser('~/langchain-chatbot/data')
+    tools.create_embeddings(docs, persist_directory=persist_directory)
     return {"status": "success", "message": "Embeddings created. "}

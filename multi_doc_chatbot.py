@@ -23,8 +23,8 @@ class ChatbotTools:
         return cls._instance
     
     def __init__(self):
-        self.persist_directory = '/root/langchain-chatbot/data'
-        self.vectordb = Chroma(persist_directory=self.persist_directory, embedding_function = OpenAIEmbeddings())
+        self.persist_directory = os.path.expanduser('~/langchain-chatbot/data')
+        self.vectordb = Chroma(persist_directory=self.persist_directory, embedding_function=OpenAIEmbeddings())
         self.qa_chain = None
 
 
@@ -51,21 +51,31 @@ tools = ChatbotTools()
 
 def document_loader():
     documents = []
-    for file in os.listdir('docs'):
-        if file.endswith('.pdf'):
-            pdf_path = '/root/langchain-chatbot/docs/' + file
-            loader = PyPDFLoader(pdf_path)
-            documents.extend(loader.load())
-        elif file.endswith('.docx') or file.endswith('.doc'):
-            doc_path = '/root/langchain-chatbot/docs/' + file
-            loader = Docx2txtLoader(doc_path)
-            documents.extend(loader.load())
-        elif file.endswith('.txt'):
-            text_path = '/root/langchain-chatbot/docs/' + file
-            loader = TextLoader(text_path)
-            documents.extend(loader.load())
-    return documents
+    current_directory = os.getcwd()
 
+    # Define the path to the 'docs' directory relative to the current working directory
+    docs_directory = os.path.join(current_directory, 'docs')
+
+    # Iterate through files in the 'docs' directory
+    for file in os.listdir(docs_directory):
+        # Full path to the file
+        file_path = os.path.join(docs_directory, file)
+
+        # Check if the path is a file (not a directory) before processing
+        if os.path.isfile(file_path):
+            if file.endswith('.pdf'):
+                pdf_path = file_path 
+                loader = PyPDFLoader(pdf_path)
+                documents.extend(loader.load())
+            elif file.endswith('.docx') or file.endswith('.doc'):
+                doc_path = file_path 
+                loader = Docx2txtLoader(doc_path)
+                documents.extend(loader.load())
+            elif file.endswith('.txt'):
+                text_path = file_path 
+                loader = TextLoader(text_path)
+                documents.extend(loader.load())
+    return documents
 # we split the data into chunks of 1,000 characters, with an overlap of 200 characters between the chunks, which helps to give better results and contain the context of the information between chunks
 
 
