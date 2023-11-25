@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - LangchainPDFChatBot
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://pdfbotcontainer.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_f16edb50960c4e9eabae200471ee68ea }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_eb3132ea53ca4b26ba3a2c691710285f }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: pdfbotcontainer.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f16edb50960c4e9eabae200471ee68ea }}/mybackendfastapiimage3:${{ github.sha }}
+        file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'LangchainPDFChatBot'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b46266904b5a4e73b8dcf5c72c3f26d6 }}
+        images: 'pdfbotcontainer.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f16edb50960c4e9eabae200471ee68ea }}/mybackendfastapiimage3:${{ github.sha }}'
