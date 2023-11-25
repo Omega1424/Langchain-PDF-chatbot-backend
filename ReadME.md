@@ -1,7 +1,7 @@
 # PDF-Chatbot Backend
 ![Architectural Diagram](/architecture%20diagram.png)
 ## About 
-API for chatbot using Langchain and GPT3.5-turbo model that can take in multiple documents and answer relevant questions. Backend was built using FastAPI. [Working webapp](https://langchain-pdf-chatbot-frontend.streamlit.app/)
+API for chatbot using Langchain and GPT3.5-turbo model that can take in multiple documents and answer relevant questions. Backend was built using FastAPI.
 ## Set up Locally
 1. Clone repo `git clone https://github.com/Omega1424/Langchain-PDF-chatbot`
 2. Add your documents to the `docs` directory
