@@ -37,7 +37,7 @@ API for chatbot using Langchain and GPT3.5-turbo model that can take in multiple
             - Choose registry, image and tag
         
 9. Get URL 
-    - App Service → Overview → Default Domain
+    - App Service → Overview → Default Domain\
       
 Optional:
 10. Change docker image that App Service uses
