@@ -40,8 +40,10 @@ API for chatbot using Langchain and GPT3.5-turbo model that can take in multiple
     - App Service → Overview → Default Domain
       
 Optional:
+
 10. Change docker image that App Service uses
     - App Service → Deployment Center → Choose registry, image and tag
+
 11. Once everything in the app works properly, change to CI/CD (Continuous Integration/Deployment)
     - App Service → Deployment Center
         - GitHub Actions → Continuous Deployment:enable
